@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block title %}Itinerary Settings{% endblock %} {%
+block content %}
+
+<div class="top">Itinerary Settings</div>
+<body>
+  <button type="submit">
+    <a class="nav-item nav-link" id="newscreen" href="/new-screen"
+      >New Screen</a
+    >
+  </button>
+  <br />
+  <div>
+    <ul id="screens">
+      <div class="flex-parent">
+        {% for screen in user.screens %}
+        <div class="inner">
+          <b>SCREEN {{ screen.id }} ITINERARY</b>
+          <br />
+          <b>Driver: </b>{{ screen.driver }}
+          <br />
+          <b>Co-driver: </b>{{ screen.co_driver }}
+          <br />
+          Service IN: {{ screen.service_IN }}
+          <br />
+          Service OUT: {{ screen.service_OUT }}
+          <br />
+          Service duration: {{ screen.service_time }}
+          <br />
+          Margin time: {{ screen.margin_time }}
+        </div>
+        <button
+          type="button"
+          class="close"
+          onClick="deleteScreen({{ screen.id }})"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- inner -->
+        {% endfor %}
+      </div>
+      <!-- flex-parent -->
+    </ul>
+  </div>
+  <br />
+</body>
+<style>
+  .flex-parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px black;
+  }
+  .inner {
+    background-color: gray;
+    padding: 5%;
+    margin: 5px;
+  }
+</style>
+
+{% endblock %}

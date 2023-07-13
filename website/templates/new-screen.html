@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block title %}New Screen{% endblock %} {% block
+content %}
+
+<h1>NEW</h1>
+<form method="POST">
+  Driver:
+  <br />
+  <input type="text" name="driver" id="driver" />
+  <br />
+  Co-driver:
+  <br />
+  <input type="text" name="co_driver" id="co_driver" />
+  <br />
+  Service IN:
+  <br />
+  <input type="time" name="service_in" id="service_in" />
+  <br />
+  Service OUT:
+  <br />
+  <input type="time" name="service_out" id="service_out" />
+  <br />
+  Service Time:
+  <br />
+  <input type="number" name="service_time" id="service_time" />
+  <br />
+  Margin Time:
+  <br />
+  <input type="number" name="margin_time" id="margin_time" />
+  <br /><br />
+  <input type="submit" id="submit" class="float-left submit-button" />
+</form>
+{% endblock %}

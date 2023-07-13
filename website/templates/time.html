@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Time{% endblock %}</title>
+  </head>
+  <body>
+    <br />
+    <div class="upper">
+      <img
+        src="https://redgreyteam.com/wp-content/uploads/2021/10/RedGrey_logo_with_stripes-1024x192.png"
+        alt="HTML5 Icon"
+        width="200"
+      />
+    </div>
+    <hr />
+    <div class="time">
+      <p>LOCAL TIME:</p>
+      <div class="clock" id="clock" align="center"></div>
+    </div>
+    <hr />
+    <div class="date" id="date"></div>
+    <style>
+      .time {
+        height: 65%;
+        padding: 5px 50px 25px;
+        font-size: 30px;
+        text-align: center;
+        font-style: bold;
+      }
+      .clock {
+        font-size: 12vw;
+      }
+      .upper {
+        height: 15%;
+        font-size: small;
+      }
+      .date {
+        height: 15%;
+        font-size: 75px;
+        text-align: center;
+        font-style: bold;
+        padding: 5%;
+      }
+    </style>
+    <script type="text/javascript" charset="utf-t">
+      let a;
+      let hour;
+      let min;
+      let sec;
+      let clock;
+      let date;
+      let today;
+      let day;
+      const month = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      setInterval(() => {
+        a = new Date();
+        hour = a.getHours();
+        min = a.getMinutes();
+        sec = a.getSeconds();
+
+        clock =
+          (hour < 10 ? "0" + hour : hour) +
+          ":" +
+          (min < 10 ? "0" + min : min) +
+          ":" +
+          (sec < 10 ? "0" + sec : sec);
+        document.getElementById("clock").innerHTML = clock;
+      }, 1000);
+      setInterval(() => {
+        date = new Date();
+        day = date.getDate();
+        day = day < 2 ? day + "st " : day;
+        day = day == 2 ? day + "nd " : day;
+        day = day == 3 ? day + "rd " : day;
+        day = day > 3 ? day + "th " : day;
+        today = day + month[date.getMonth()] + " " + date.getFullYear();
+        document.getElementById("date").innerHTML = today;
+      }, 100);
+    </script>
+    <span id="clock"></span>
+    <span id="date"></span>
+  </body>
+</html>

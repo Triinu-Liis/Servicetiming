@@ -1,0 +1,169 @@
+{% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
+content %}
+<body onload="updateTime">
+  <h1 align="center">Dashboard</h1>
+  <div class="flex-parent">
+    <div class="upper">
+      <div>Current Location</div>
+      <div class="inner" id="loc">Tartu, Estonia</div>
+    </div>
+    <div class="upper">
+      <div>Current Time Zone</div>
+      <div class="inner" id="zone"></div>
+    </div>
+    <div class="upper">
+      <div>Current Local Time</div>
+      <div class="inner" id="clock"></div>
+    </div>
+    <div class="upper">
+      <div>Current Date</div>
+      <div class="inner" id="date"></div>
+    </div>
+  </div>
+
+  <div class="flex-parent">
+    <div class="upper">
+      <div class="inner">
+        <button
+          class="btn-btn-success"
+          onclick="window.open('http://127.0.0.1:5000/time')"
+        >
+          Just Time
+        </button>
+      </div>
+    </div>
+    {% for screen in user.screens %}
+    <div class="upper">
+      <div class="inner">
+        <button type="button">
+        <a class="nav-item nav-link" id="screen" href="/screen_1"
+      >Screen 1</a></button>
+        <br />
+        <b>Driver: </b> {{ screen.driver }}
+        <br />
+        <b>Co-driver: </b> {{ screen.co_driver }}
+        <br>
+      </div>
+    </div>
+    {% endfor %}
+    <p id="result"></p>
+
+  <script>
+    function getID() {
+      var btnID = event.target.id;
+      document.getElementById("result").innerHTML = "The id of the clicked button is: " + btnID;
+    }
+  </script>
+
+  <script type="text/javascript" charset="utf-t">
+    let a;
+    let hour;
+    let min;
+    let sec;
+    let clock;
+    setInterval(() => {
+      a = new Date();
+      hour = a.getHours();
+      min = a.getMinutes();
+      sec = a.getSeconds();
+
+      clock =
+        (hour < 10 ? "0" + hour : hour) +
+        " : " +
+        (min < 10 ? "0" + min : min) +
+        " : " +
+        (sec < 10 ? "0" + sec : sec);
+      document.getElementById("clock").innerHTML = clock;
+    }, 1000);
+  </script>
+  <span id="clock"></span>
+  <script type="text/javascript" charset="utf-8">
+    let date;
+    let today;
+    let day;
+    const month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    setInterval(() => {
+      date = new Date();
+      day = date.getDate();
+      day = day < 2 ? day + "st " : day;
+      day = day == 2 ? day + "nd " : day;
+      day = day == 3 ? day + "rd " : day;
+      day = day > 3 ? day + "th " : day;
+      today = day + month[date.getMonth()] + " " + date.getFullYear();
+      document.getElementById("date").innerHTML = today;
+    }, 100);
+  </script>
+  <span id="date"></span>
+
+  <script type="text/javascript" charset="utf-8">
+    var zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById("zone").innerHTML = zone;
+  </script>
+  <span id="zone"></span>
+
+  <script>
+    function rememberId(screenId) {
+      fetch("/remember-id", {
+      method: "POST",
+      body: JSON.stringify({ screenId: screenId }),
+    }).then((_res) => {
+      window.location.href = "/service-time";
+    });
+  }
+  </script>
+</body>
+<style>
+  .flex-parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+  }
+  .upper {
+    background-color: gainsboro;
+    text-align: center;
+    width: fit-content;
+    font: 2vw bold;
+    padding: 3%;
+    margin: 5px;
+  }
+  .inner {
+    padding: 10px 2px 10px;
+  }
+</style>
+
+<!--
+<h1 align="center">Notes</h1>
+<ul class="list-group list-group-flush" id="notes">
+  {% for note in user.notes %}
+  <li class="list-group.notes">
+    {{ note.data }}
+    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="note" id="note" class="form-control"> </textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add Notes</button>
+  </div>
+</form>
+-->
+
+{% endblock %}

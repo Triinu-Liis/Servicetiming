@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Servicetiming{% endblock %}</title>
+  </head>
+
+  <body>
+    <div class="parent">
+      <div class="child" align="left">
+        <img
+          src="https://redgreyteam.com/wp-content/uploads/2021/10/RedGrey_logo_with_stripes-1024x192.png"
+          alt="HTML5 Icon"
+          width="200"
+        />
+      </div>
+      <div class="child" align="right">
+        {% for screen in user.screens %} {% if screen.id==1 %}
+        <b
+          >{{ screen.driver }}
+          <br />
+          {{ screen.co_driver }} </b
+        >{% endif %}{% endfor %}
+      </div>
+    </div>
+
+    <div class="service">
+      <hr />
+      <br /><br />
+      {% for screen in user.screens %} {% if screen.id==1 %} {% if
+      screen.service_IN > time %}
+      <p align="center">NEXT SERVICE IN</p>
+
+      <h1 class="before" id="before" align="center"></h1>
+      {% elif screen.service_IN < time and screen.service_OUT > time %}
+      <p align="center">SERVICE TIME LEFT</p>
+
+      <h1 class="during" id="during" align="center"></h1>
+      {% else %}
+      <p>90 seconds</p>
+      {% endif %} {% endif %} {% endfor %}
+      <hr />
+    </div>
+    <div id="flex-parent" class="flex-parent">
+      {% for screen in user.screens %} {% if screen.id==1 %}
+      <div id="box" class="box">
+        <b>SERVICE IN</b>
+        <p>{{ screen.service_IN }}</p>
+      </div>
+      <div id="box" class="box">
+        <b>SERVICE OUT</b>
+        <p>{{ screen.service_OUT }}</p>
+      </div>
+      <div id="box" class="box">
+        <b>LOCAL TIME</b>
+        <p id="time"></p>
+      </div>
+      {% endif %}{% endfor %}
+    </div>
+    <style>
+      .child {
+        font-size: 20px;
+      }
+      .flex-parent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5%;
+      }
+      .box {
+        text-align: center;
+        width: 30%;
+        font: 2vw bold;
+        padding: 3%;
+        margin: 5px;
+      }
+      .before {
+        font-size: 50px;
+      }
+      .service {
+        background-color: white;
+      }
+
+      .during {
+        background-color: greenyellow;
+      }
+    </style>
+  </body>
+</html>
+
+{% block javascript %}
+
+<script type="text/javascript" charset="utf-t">
+  var countDownDate = new Date("July 11, 2023 18:30:00").getTime();
+  var x = setInterval(function () {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    document.getElementById("before").innerHTML =
+      hours + "h " + minutes + "m " + seconds + "s ";
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("before").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+</script>
+
+<script type="text/javascript">
+  let a;
+  let hour;
+  let min;
+  let sec;
+  let time;
+  setInterval(() => {
+    a = new Date();
+    hour = a.getHours();
+    min = a.getMinutes();
+    sec = a.getSeconds();
+
+    time =
+      (hour < 10 ? "0" + hour : hour) +
+      ":" +
+      (min < 10 ? "0" + min : min) +
+      ":" +
+      (sec < 10 ? "0" + sec : sec);
+    document.getElementById("time").innerHTML = time;
+  }, 1000);
+</script>
+
+<script type="text/javascript" charset="utf-t">
+  var countDownDate2 = new Date("July 11, 2023 19:00:00").getTime();
+  var x2 = setInterval(function () {
+    var now2 = new Date().getTime();
+    var distance2 = countDownDate2 - now2;
+    var hours2 = Math.floor(
+      (distance2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes2 = Math.floor((distance2 % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds2 = Math.floor((distance2 % (1000 * 60)) / 1000);
+    document.getElementById("during").innerHTML =
+      hours2 + "h " + minutes2 + "m " + seconds2 + "s ";
+    if (distance2 < 0) {
+      clearInterval(x2);
+      document.getElementById("during").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+</script>
+
+{% endblock %}
